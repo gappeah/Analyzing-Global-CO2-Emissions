@@ -18,6 +18,32 @@ genetic_code = {
     'UGC': 'C', 'UGU': 'C', 'UGA': '*', 'UGG': 'W'
 }
 
+from Bio.PDB import PDBParser, PPBuilder
+import nglview as nv
+from io import StringIO
+
+def visualize_secondary_structure(amino_acid_sequence):
+    # Create a string representation of the amino acid sequence
+    sequence_str = ''.join(amino_acid_sequence)
+
+    # Use Biopython to create a protein structure
+    structure = PPBuilder().build_peptide(sequence_str)
+
+    # Write the structure to a StringIO object
+    structure_io = StringIO()
+    io = PDBIO()
+    io.set_structure(structure)
+    io.save(structure_io)
+
+    # Create an NGLView instance and load the structure
+    view = nv.show_structure_file(structure_io.getvalue())
+
+    # Add secondary structure representation
+    view.add_representation("cartoon", selection="all", color="residueindex")
+
+    # Display the structure
+    view
+    
 def get_input():
     sequence = input("Enter a DNA or RNA sequence: ")
     return sequence.upper()
