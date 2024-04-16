@@ -1,7 +1,5 @@
-
-
 # Define the genetic code dictionary
-genetic_code = genetic_code = {
+genetic_code = {
     'AUA': 'I', 'AUC': 'I', 'AUU': 'I', 'AUG': 'M',
     'ACA': 'T', 'ACC': 'T', 'ACG': 'T', 'ACU': 'T',
     'AAC': 'N', 'AAU': 'N', 'AAA': 'K', 'AAG': 'K',
@@ -74,19 +72,21 @@ def predict_secondary_structure(amino_acid_sequence):
 
     return ''.join(predicted_structure)
 
-    def main():
-        sequence = get_input()
-        if set(sequence) <= set('ACGT'):
-            rna = transcribe_dna_to_rna(sequence)
-            amino_acids = translate_rna_to_amino_acids(rna)
-            secondary_structure = predict_secondary_structure(amino_acids)
-            print("Amino Acid Sequence:", ''.join(amino_acids))
-            print("Predicted Secondary Structure:", secondary_structure)
-        elif set(sequence) <= set('ACGU'):
-            amino_acids = translate_rna_to_amino_acids(sequence)
-            secondary_structure = predict_secondary_structure(amino_acids)
-            print("Amino Acid Sequence:", ''.join(amino_acids))
-            print("Predicted Secondary Structure:", secondary_structure)
-        else:
-            print("Invalid input. Please enter a valid DNA or RNA sequence.")
+def main():
+    sequence = get_input()
+    if set(sequence) <= set('ACGT'):
+        rna = transcribe_dna_to_rna(sequence)
+        amino_acids = translate_rna_to_amino_acids(rna)
+        secondary_structure = predict_secondary_structure(amino_acids)
+        print("Amino Acid Sequence:", ''.join(amino_acids))
+        print("Predicted Secondary Structure:", secondary_structure)
+    elif set(sequence) <= set('ACGU'):
+        amino_acids = translate_rna_to_amino_acids(sequence)
+        secondary_structure = predict_secondary_structure(amino_acids)
+        print("Amino Acid Sequence:", ''.join(amino_acids))
+        print("Predicted Secondary Structure:", secondary_structure)
+    else:
+        print("Invalid input. Please enter a valid DNA or RNA sequence.")
 
+if __name__ == "__main__":
+    main()
