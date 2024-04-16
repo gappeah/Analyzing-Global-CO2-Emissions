@@ -49,13 +49,18 @@ def predict_secondary_structure(amino_acid_sequence):
 
     # Iterate through the amino acid sequence
     for amino_acid in amino_acid_sequence:
-        # Get the index of the amino acid in the probability lists
-        index = ['A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V'].index(amino_acid)
+        if amino_acid == '*':  # Handle stop codons separately
+            helix_prob.append(0)
+            strand_prob.append(0)
+            coil_prob.append(0)
+        else:
+            # Get the index of the amino acid in the probability lists
+            index = ['A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V'].index(amino_acid)
 
-        # Append the probabilities to the respective lists
-        helix_prob.append(gor_helix[index])
-        strand_prob.append(gor_strand[index])
-        coil_prob.append(gor_coil[index])
+            # Append the probabilities to the respective lists
+            helix_prob.append(gor_helix[index])
+            strand_prob.append(gor_strand[index])
+            coil_prob.append(gor_coil[index])
 
     # Initialize lists to store predicted structures
     predicted_structure = []
