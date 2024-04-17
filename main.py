@@ -3,7 +3,7 @@ import io
 from tempfile import gettempdir
 
 # Third-Party Imports
-od
+from Bio.PDB import PDBIO, ProteinLoader
 import nglview as nv
 
 # Local Imports
