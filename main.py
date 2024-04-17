@@ -1,24 +1,6 @@
-# Standard Library Imports
-import io
-from tempfile import gettempdir
+import csv
 
-# Third-Party Imports
-from Bio.PDB import PDBIO, ProteinLoader
-import nglview as nv
-
-# Local Imports
-import numpy as np
-import matplotlib.pyplot as plt
-import biotite
-import biotite.structure as struc
-import biotite.structure.io.pdbx as pdbx
-import biotite.sequence as seq
-import biotite.sequence.graphics as graphics
-import biotite.sequence.io.genbank as gb
-import biotite.database.rcsb as rcsb
-import biotite.database.entrez as entrez
-import biotite.application.dssp as dssp
-
+# Define the genetic code dictionary
 genetic_code = {
     'AUA': 'I', 'AUC': 'I', 'AUU': 'I', 'AUG': 'M',
     'ACA': 'T', 'ACC': 'T', 'ACG': 'T', 'ACU': 'T',
@@ -38,39 +20,6 @@ genetic_code = {
     'UGC': 'C', 'UGU': 'C', 'UGA': '*', 'UGG': 'W'
 }
 
-
-def visualize_secondary_structure(amino_acid_sequence, secondary_structure):
-    """
-    Visualize the secondary structure of a protein using NGLView.
-
-    Parameters:
-    - amino_acid_sequence (list): List of amino acids.
-    - secondary_structure (str): Predicted secondary structure of the protein.
-    """
-    # Create a string representation of the amino acid sequence
-    sequence_str = ''.join(amino_acid_sequence)
-
-    # Use Biopython to create a protein structure
-    loader = ProteinLoader()
-    structure = loader.load_protein_from_sequence(sequence_str)
-
-    # Write the structure to a BytesIO object
-    structure_io = io.BytesIO()
-    io = PDBIO()
-    io.set_structure(structure)
-    io.save(structure_io)
-    structure_io.seek(0)  # Reset the file pointer to the beginning
-
-    # Create an NGLView instance and load the structure
-    view = nv.show_structure_file(structure_io)
-
-    # Add secondary structure representation
-    view.add_representation("cartoon", selection="all", color="residueindex")
-
-    # Display the structure
-    view
-
-    
 def get_input():
     """
     Prompt the user to enter a DNA or RNA sequence.
@@ -169,17 +118,20 @@ def main():
         rna = transcribe_dna_to_rna(sequence)
         amino_acids = translate_rna_to_amino_acids(rna)
         secondary_structure = predict_secondary_structure(amino_acids)
-        print("Amino Acid Sequence:", ''.join(amino_acids))
-        print("Predicted Secondary Structure:", secondary_structure)
-        visualize_secondary_structure(amino_acids, secondary_structure)
-    elif set(sequence) <= set('ACGU'):
+        with open('output.csv', 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(['Amino Acid Sequence', 'Predicted Secondary Structure'])
+            writer.writerow([''.join(amino_acids), secondary_structure])
+elif set(sequence) <= set('ACGU'):
         amino_acids = translate_rna_to_amino_acids(sequence)
         secondary_structure = predict_secondary_structure(amino_acids)
-        print("Amino Acid Sequence:", ''.join(amino_acids))
-        print("Predicted Secondary Structure:", secondary_structure)
-        visualize_secondary_structure(amino_acids, secondary_structure)
+        with open('output.csv', 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(['Amino Acid Sequence', 'Predicted Secondary Structure'])
+            writer.writerow([''.join(amino_acids), secondary_structure])
     else:
         print("Invalid input. Please enter a valid DNA or RNA sequence.")
 
 if __name__ == "__main__":
     main()
+
