@@ -1,4 +1,24 @@
-# Define the genetic code dictionary
+# Standard Library Imports
+import io
+from tempfile import gettempdir
+
+# Third-Party Imports
+od
+import nglview as nv
+
+# Local Imports
+import numpy as np
+import matplotlib.pyplot as plt
+import biotite
+import biotite.structure as struc
+import biotite.structure.io.pdbx as pdbx
+import biotite.sequence as seq
+import biotite.sequence.graphics as graphics
+import biotite.sequence.io.genbank as gb
+import biotite.database.rcsb as rcsb
+import biotite.database.entrez as entrez
+import biotite.application.dssp as dssp
+
 genetic_code = {
     'AUA': 'I', 'AUC': 'I', 'AUU': 'I', 'AUG': 'M',
     'ACA': 'T', 'ACC': 'T', 'ACG': 'T', 'ACU': 'T',
@@ -18,26 +38,15 @@ genetic_code = {
     'UGC': 'C', 'UGU': 'C', 'UGA': '*', 'UGG': 'W'
 }
 
-from Bio.PDB import PDBParser, PPBuilder, PDBIO
-from Bio.PDB import ProteinLoader
-import nglview as nv
-from io import StringIO
-from tempfile import gettempdir
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
-import biotite
-import biotite.structure as struc
-import biotite.structure.io.pdbx as pdbx
-import biotite.sequence as seq
-import biotite.sequence.graphics as graphics
-import biotite.sequence.io.genbank as gb
-import biotite.database.rcsb as rcsb
-import biotite.database.entrez as entrez
-import biotite.application.dssp as dssp
-
 
 def visualize_secondary_structure(amino_acid_sequence, secondary_structure):
+    """
+    Visualize the secondary structure of a protein using NGLView.
+
+    Parameters:
+    - amino_acid_sequence (list): List of amino acids.
+    - secondary_structure (str): Predicted secondary structure of the protein.
+    """
     # Create a string representation of the amino acid sequence
     sequence_str = ''.join(amino_acid_sequence)
 
@@ -63,13 +72,37 @@ def visualize_secondary_structure(amino_acid_sequence, secondary_structure):
 
     
 def get_input():
+    """
+    Prompt the user to enter a DNA or RNA sequence.
+
+    Returns:
+    - str: The input sequence converted to uppercase.
+    """
     sequence = input("Enter a DNA or RNA sequence: ")
     return sequence.upper()
 
 def transcribe_dna_to_rna(dna):
+    """
+    Transcribe a DNA sequence to RNA.
+
+    Parameters:
+    - dna (str): DNA sequence.
+
+    Returns:
+    - str: RNA sequence.
+    """
     return dna.replace('T', 'U')
 
 def translate_rna_to_amino_acids(rna):
+    """
+    Translate an RNA sequence to amino acids.
+
+    Parameters:
+    - rna (str): RNA sequence.
+
+    Returns:
+    - list: List of amino acids.
+    """
     amino_acids = []
     for i in range(0, len(rna), 3):
         codon = rna[i:i+3]
@@ -81,6 +114,15 @@ def translate_rna_to_amino_acids(rna):
     return amino_acids
 
 def predict_secondary_structure(amino_acid_sequence):
+    """
+    Predict the secondary structure of a protein.
+
+    Parameters:
+    - amino_acid_sequence (list): List of amino acids.
+
+    Returns:
+    - str: Predicted secondary structure.
+    """
     # GOR probability parameters
     gor_helix = [0.888, 0.544, 1.032, -0.032, 1.005, 0.285, 0.954, 0.315, -0.384, -0.284, -0.695, -0.072, -0.647, -0.192, -1.612, -0.232, -0.368, -1.036, -0.293, -0.057]
     gor_strand = [0.836, -0.920, -0.179, 1.603, -0.590, -1.892, -0.109, -1.649, -0.329, -1.263, -1.053, -1.370, -1.066, -0.621, -1.022, -0.506, -0.355, -0.766, -1.075, -0.697]
