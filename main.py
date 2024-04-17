@@ -18,7 +18,7 @@ genetic_code = {
     'UGC': 'C', 'UGU': 'C', 'UGA': '*', 'UGG': 'W'
 }
 
-from Bio.PDB import PDBParser, PPBuilder
+from Bio.PDB import PDBParser, PPBuilder, PDBIO
 import nglview as nv
 from io import StringIO
 
