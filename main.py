@@ -112,6 +112,8 @@ def predict_secondary_structure(amino_acid_sequence):
 
     return ''.join(predicted_structure)
 
+import csv
+
 def main():
     sequence = get_input()
     if set(sequence) <= set('ACGT'):
@@ -122,7 +124,7 @@ def main():
             writer = csv.writer(csvfile)
             writer.writerow(['Amino Acid Sequence', 'Predicted Secondary Structure'])
             writer.writerow([''.join(amino_acids), secondary_structure])
-elif set(sequence) <= set('ACGU'):
+    elif set(sequence) <= set('ACGU'):
         amino_acids = translate_rna_to_amino_acids(sequence)
         secondary_structure = predict_secondary_structure(amino_acids)
         with open('output.csv', 'w', newline='') as csvfile:
