@@ -21,8 +21,21 @@ genetic_code = {
 from Bio.PDB import PDBParser, PPBuilder, PDBIO
 import nglview as nv
 from io import StringIO
+from tempfile import gettempdir
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+import biotite
+import biotite.structure as struc
+import biotite.structure.io.pdbx as pdbx
+import biotite.sequence as seq
+import biotite.sequence.graphics as graphics
+import biotite.sequence.io.genbank as gb
+import biotite.database.rcsb as rcsb
+import biotite.database.entrez as entrez
+import biotite.application.dssp as dssp
 
-def visualize_secondary_structure(amino_acid_sequence):
+def visualize_secondary_structure(amino_acid_sequence, secondary_structure):
     # Create a string representation of the amino acid sequence
     sequence_str = ''.join(amino_acid_sequence)
 
@@ -43,6 +56,7 @@ def visualize_secondary_structure(amino_acid_sequence):
 
     # Display the structure
     view
+
     
 def get_input():
     sequence = input("Enter a DNA or RNA sequence: ")
@@ -111,11 +125,13 @@ def main():
         secondary_structure = predict_secondary_structure(amino_acids)
         print("Amino Acid Sequence:", ''.join(amino_acids))
         print("Predicted Secondary Structure:", secondary_structure)
+        visualize_secondary_structure(amino_acids, secondary_structure)
     elif set(sequence) <= set('ACGU'):
         amino_acids = translate_rna_to_amino_acids(sequence)
         secondary_structure = predict_secondary_structure(amino_acids)
         print("Amino Acid Sequence:", ''.join(amino_acids))
         print("Predicted Secondary Structure:", secondary_structure)
+        visualize_secondary_structure(amino_acids, secondary_structure)
     else:
         print("Invalid input. Please enter a valid DNA or RNA sequence.")
 
