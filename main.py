@@ -19,6 +19,7 @@ genetic_code = {
 }
 
 from Bio.PDB import PDBParser, PPBuilder, PDBIO
+from Bio.PDB import ProteinLoader
 import nglview as nv
 from io import StringIO
 from tempfile import gettempdir
@@ -35,21 +36,24 @@ import biotite.database.rcsb as rcsb
 import biotite.database.entrez as entrez
 import biotite.application.dssp as dssp
 
+
 def visualize_secondary_structure(amino_acid_sequence, secondary_structure):
     # Create a string representation of the amino acid sequence
     sequence_str = ''.join(amino_acid_sequence)
 
     # Use Biopython to create a protein structure
-    structure = PPBuilder().build_peptide(sequence_str)
+    loader = ProteinLoader()
+    structure = loader.load_protein_from_sequence(sequence_str)
 
-    # Write the structure to a StringIO object
-    structure_io = StringIO()
+    # Write the structure to a BytesIO object
+    structure_io = io.BytesIO()
     io = PDBIO()
     io.set_structure(structure)
     io.save(structure_io)
+    structure_io.seek(0)  # Reset the file pointer to the beginning
 
     # Create an NGLView instance and load the structure
-    view = nv.show_structure_file(structure_io.getvalue())
+    view = nv.show_structure_file(structure_io)
 
     # Add secondary structure representation
     view.add_representation("cartoon", selection="all", color="residueindex")
