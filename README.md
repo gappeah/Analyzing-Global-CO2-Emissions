@@ -1,4 +1,4 @@
-# Excel to Power BI Data Analysis Project
+# YouTube Market Data Analysis
 
 ## Project Overview
 This project is a comprehensive data analysis workflow that demonstrates how to transform raw data from Excel into actionable insights using SQL and Power BI. The dataset used contains information about top-performing YouTube channels in the UK, with data sourced from a publicly available platform.
