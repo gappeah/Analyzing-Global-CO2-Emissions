@@ -1,55 +1,28 @@
-# YouTube Market Data Analysis
+**Dataset**: CO2 Emissions by Country (Our World in Data)
 
-## Project Overview
-This project is a comprehensive data analysis workflow that demonstrates how to transform raw data from Excel into actionable insights using SQL and Power BI. The dataset used contains information about top-performing YouTube channels in the UK, with data sourced from a publicly available platform.
+- **Source**: [Our World in Data CO2 Dataset](https://ourworldindata.org/co2-and-greenhouse-gas-emissions)
+- **Description**: Contains annual CO2 emissions (in million tonnes) by country, along with GDP, population, and per capita emissions from 1800 to recent years.
+- **File**: Download the CSV file co2-data.csv.
+https://github.com/owid/co2-data?tab=readme-ov-file
 
-The workflow consists of data extraction, cleaning, transformation, and visualization, designed to simulate a real-world marketing analysis scenario for a client aiming to identify YouTube influencers for marketing campaigns.
+**Data Preparation**
 
-## Table of Contents
-1. [Project Architecture](#project-architecture)
-2. [Dataset Description](#dataset-description)
-3. [Steps Involved](#steps-involved)
-4. [Data Cleaning](#data-cleaning)
-5. [Data Visualization](#data-visualization)
-6. [Recommendations](#recommendations)
-7. [How to Run](#how-to-run)
-8. [Contributing](#contributing)
-9. [License](#license)
+- **Tasks**:
+    - Load the dataset using Pandas.
+    - Filter for years after 1990 and countries with non-null CO2 emissions.
+    - Handle missing values (e.g., impute population using median or drop rows).
+    - Create a new column for CO2 per capita using NumPy calculations.
 
-## Project Architecture
-The project involves three key technologies:
-- **Excel**: The raw data is sourced from an Excel file containing YouTube channel information.
-- **SQL**: SQL Server is used to clean, transform, and perform quality checks on the data.
-- **Power BI**: A dashboard is created to visualize insights, including top YouTubers by subscriber count, views, and video uploads.
+**EDA**
 
-## Dataset Description
-The dataset contains the following fields:
-- Channel name
-- Subscriber count
-- Views
-- Videos uploaded
+- **Tasks**:
+    - Use Pandas to compute summary statistics (mean, median CO2 emissions by continent).
+    - Group by year to analyze global CO2 trends using NumPy for aggregations.
+    - Identify top 5 emitting countries in 2020.
 
-The dataset was sourced from a data platform and extracted via a Python script using the YouTube API.
+**Data Visualization**
 
-## Steps Involved
-
-1. **Data Extraction**: 
-   - The initial data is downloaded from an external source in Excel format.
-   - A Python script is used to pull supplementary data from the YouTube API.
-
-2. **Data Cleaning**:
-   - Unnecessary columns are removed.
-   - Data is cleaned to ensure consistency and accuracy.
-
-3. **Data Transformation**:
-   - Data types for each column are validated.
-   - SQL queries are used to transform the dataset into the required format for analysis.
-
-4. **Data Quality Checks**:
-   - Row and column counts are verified.
-   - Data types are validated.
-   - Duplicate records are checked.
-
-5. **Data Visualization**:
-   - The cleaned data is imported into Power BI.
-   - A dashboard is created with visualizations such as tables, tree maps, and bar charts to show top YouTubers by subscriber count, video uploads, and views.
+- **Tasks**:
+    - Plot a line chart of global CO2 emissions over time using Matplotlib.
+    - Create a Seaborn boxplot of CO2 per capita by continent.
+    - Use Seaborn to plot a scatterplot of CO2 vs. GDP with regression line.
